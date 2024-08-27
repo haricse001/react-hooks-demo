@@ -1,17 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const App = () => {
+    const inputRef = useRef(null);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    useEffect(() => {
+        inputRef.current.focus();
+        console.log('Component mounted');
+        return () => {
+            console.log('Component unmounted');
+        };
+    }, []);
+
+    const handleButtonClick = () => {
+        alert(`Input value: ${inputRef.current.value}`);
+    };
+
+    return (
+        <div>
+            <input type="text" ref={inputRef} placeholder="Type something..." />
+            <button onClick={handleButtonClick}>Show Value</button>
+        </div>
+    );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
